@@ -1,0 +1,18 @@
+<ion-header class="ion-no-border"> <!-- Agregamos una clase para quitarle una "sombra" debajo de nuestro header -->
+  <ion-toolbar class="new-background-color">
+
+    <ion-buttons slot ="start"> <!--- Manda los botones al inicio / izquierda osea "start" -->
+      <ion-menu-button *ngIf="showMenu" menu="menu-content"></ion-menu-button> <!-- Declaramos un *NgIf para que el menu se contraiga -->
+      <ion-back-button *ngIf="backbutton" [defaultHref]="backbutton"></ion-back-button><!-- Creamos un boton para regresar y el ngIf para condicionarlo y un defaultHref para la ruta a la que quiero volver -->
+      <ion-button *ngIf="isModal" (click)="dismissModal()">
+        <ion-icon name="close-circle-outline"></ion-icon>
+      </ion-button> <!-- Creamos nuestro boton de salir de nuestra ventana emergente de nuestro modal , asi como su condición si es que existe un modal -->
+    </ion-buttons>
+    
+    <ion-title>
+      <strong>{{ title }}</strong>
+      <div class="admin"> APP_UPSRJ </div>
+    </ion-title>
+  </ion-toolbar>
+</ion-header>
+

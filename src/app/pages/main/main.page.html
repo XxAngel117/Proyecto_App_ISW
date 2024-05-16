@@ -1,0 +1,37 @@
+<ion-menu contentId="menu-content" menuId="menu-content" side="start"> <!-- Engloba todo mi contenido de mi menu -->
+
+    <app-header title="Menú" ></app-header> <!-- Recibimos el nombre del titulo, podemos modificarlo y recibimos si el menu esta abierto o no -->
+
+    <ion-content class="ion-text-center">
+
+      <ion-avatar>
+
+          <img *ngIf="user()?.img" [src]="user()?.img" alt=""> <!--  Traemos la imagen del usuario y condicionamos en caso de que no tengamos foto traiga el icono sin foto -->
+
+          <ion-icon *ngIf="!user()?.img" class="empty-icon"  name="person-circle-outline"></ion-icon>
+
+      </ion-avatar> 
+
+      <h4> {{ user()?.name }} </h4>  <!-- Mandamos a traer nuestra función de user para traer el nombre que esta enlazado a firebase con una sesión iniciada -->      
+
+      <ion-menu-toggle autoHide="false" *ngFor="let p of pages"> <!---- Aqui se va a traer los modulos que contiene "pages" y se haran visibles dentro del main, asi como las direcciones de cada uno. Mientras que el autohide los hace visibles  ---->
+        <ion-item [ngClass]="{'active': currentPath === p.url}" [routerLink]="p.url" routerDirection="root" detail> <!-- El detail es la flecha de los modulos -->
+          <ion-icon slot="start" [name]="p.icon"></ion-icon> <!--- Traeremos un icono --->
+          <ion-label>{{ p.title }}</ion-label> <!-- Traeremos un titulo -->
+        </ion-item>
+      </ion-menu-toggle>
+    </ion-content>  
+
+    <ion-footer class="ion-no-border safe-p-bottom">
+      <ion-toolbar auto-hide="false">
+       <ion-item (click)="signOut()" lines="none">
+        <ion-icon slot="start" name="log-out-outline"></ion-icon>
+        <ion-label>Cerrar sesión</ion-label>
+       </ion-item>
+      </ion-toolbar>
+    </ion-footer>
+
+</ion-menu>
+
+<ion-router-outlet id="menu-content" main ></ion-router-outlet> <!--  Nos sirve para realizar la navegacion entre componentes  -->
+

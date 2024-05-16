@@ -1,0 +1,70 @@
+<!-- Recibimos el nombre del titulo, podemos modificarlo y recibimos si el menu esta abierto o no -->
+<app-header backbutton="/auth"  title="Registro" ></app-header> 
+
+<ion-content>
+
+  <div class="d-flex-center">
+
+    <form [formGroup]="form" (ngSubmit)="submit()" class="auth-form" (keypress.enter)="submit()" > <!-- Traeremos nuestro objeto form , asi como su funcionamiento que declaramos en login-input y auth.ts , asi como tambien, el NgSubmit para ver que nos estra trayendo nuestro formulario -->
+
+      <app-logo> </app-logo> <!-- Se esta trayendo la clase logo, atraves del shared -->
+
+      <app-login-input
+
+        autocomplete="name"
+        type="text"
+        label="Nombre"
+        icon="person-outline"
+        [control]="form.controls.name" 
+
+      ></app-login-input> <!-- Ademas de declarar los parametros de nuestro form, vamos a traer nuestro "control" para  recopilar nuestra información y nuestro ".controls" sirven para que podamos manipular los datos de lo que estamos enviando en nuestra etiqueta -->
+
+    <div class="validators" *ngIf="form.controls.name.errors && form.controls.name.touched"> <!-- Nuestro ngIf servira para enviar un mensaje en caso que detecte un error, este será atraves de nuestro ".errors" (por ejemplo cuando este vacio algun campo de nuestro forms) todo esto cuando sea tocado o clickeado -->
+
+      <div *ngIf="form.controls.name.errors?.['required']"> El nombre es requerido </div>
+      <div *ngIf="form.controls.name.errors?.['minLength']"> Ingrese un nombre mayor a 3 caracteres </div> 
+
+    </div>
+
+
+      <app-login-input
+
+        autocomplete="email"
+        type="email"
+        label="Correo"
+        icon="mail-outline"
+        [control]="form.controls.email" 
+      
+      ></app-login-input> <!-- Ademas de declarar los parametros de nuestro form, vamos a traer nuestro "control" para  recopilar nuestra información y nuestro ".controls" sirven para que podamos manipular los datos de lo que estamos enviando en nuestra etiqueta -->
+
+      <div class="validators" *ngIf="form.controls.email.errors && form.controls.email.touched"> <!-- Nuestro ngIf servira para enviar un mensaje en caso que detecte un error, este será atraves de nuestro ".errors" (por ejemplo cuando este vacio algun campo de nuestro forms) todo esto cuando sea tocado o clickeado -->
+
+        <div *ngIf="form.controls.email.errors?.['required']"> El correo es requerido </div>
+        <div *ngIf="form.controls.email.errors?.['email']"> Ingrese un correo valido </div> 
+
+      </div>
+
+      <app-login-input
+
+        type="password"
+        label="Contraseña"
+        icon="lock-closed-outline"
+        [control]="form.controls.password" 
+
+      ></app-login-input>
+
+      <div class="validators" *ngIf="form.controls.password.errors && form.controls.password.touched"> <!-- Nuestro ngIf servira para enviar un mensaje en caso que detecte un error, este será atraves de nuestro ".errors" (por ejemplo cuando este vacio algun campo de nuestro forms) todo esto cuando sea tocado o clickeado -->
+
+        <div *ngIf="form.controls.password.errors?.['required']"> La contraseña es requerida </div>
+  
+      </div>
+
+      <ion-button class="submit" type="submit" expand="block" mode="ios" fill="outline" [disabled]="form.invalid" > <!-- EL tipo "type" servira para enviar la información de lo que estemos agregando y mis datos sean leidos , sino no podra leer el contenido esto de acuerdo a las propiedades del submit -->
+        Registrarse
+      </ion-button>
+      
+    </form>
+
+  </div>
+
+</ion-content>

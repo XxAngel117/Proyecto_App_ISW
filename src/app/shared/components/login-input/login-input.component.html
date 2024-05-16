@@ -1,0 +1,21 @@
+<ion-item class="custom-input" lines="none"> <!--  Agregamos una clase para nuestros inputs y un elemento para evitar lineas , para hacerle saber a mi etiqueta que solo se enfoque en nuestro estilo, se eliminará la linea de  en nuestro "input"  -->
+
+  <!-- <ion-icon *ngIf="icon"  slot="start" color="primary" [name]="icon"></ion-icon> -->
+
+  <ion-input 
+
+  [type]="type" 
+  [autocomplete]="autocomplete" 
+  [label]="label" 
+  [formControl]="control" 
+  label-placement="floating" 
+
+  ></ion-input> <!-- Pasaremos todos los parametros para nuestro formulario , incluyendo FormControl , asi mismo le pasamos un atributo al escribir sobre el input o espacio salte el nombre del campo --> 
+
+  <ion-button *ngIf="isPassword" (click)="showandhide()" fill="clear" shape="round" slot="end">
+
+    <ion-icon slot="end" color="primary" [name]="hide ? 'eye-outline': 'eye-off-outline' "></ion-icon>
+
+  </ion-button>
+  
+</ion-item>
