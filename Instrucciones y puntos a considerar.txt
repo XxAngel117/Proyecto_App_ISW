@@ -1,0 +1,135 @@
+***** Algunos acciones o instrucciones que se consideraron para la creación de la aplicación *****
+
+-----> Login <--------------------------------------- 
+1. Se crearon carpetas padres e hijos esto con el fin de tener una ubicación exacta o raiz al momento de querer navegar por nuestro proyecto
+La carpeta principal se llama "auth" (autenticación, esto por la creación del login) y los hijos o child's de la carpeta principal serán 2
+"sign-up" y "forgot-password" una para el registro y otra para el usuario en caso de perder la contraseña , esta contraseña tiene como indicación
+el no mostrarla en codigo ni en base de datos (FIREBASE) se encripta, para mayor seguridad de usuario.
+
+
+
+-----> Componente Shared <---------------------------------------
+1. Esta carpeta contendra ciertos elementos que necesitaremos a la hora de añadir estilos a ciertos modulos
+tendran la contendra child's "header", "login-input" , "logo" y "update-employee" estos elementos los iremos aplicando por ruta de ahi la importancia
+de tenerlos en una familia de carpetas y solo cuando queramos utilizarlo en algunos modulos solo habra de agregarlo dentro de nuestro archivo "module.ts" del modulo principal que estemos manejando
+en ese momento, es decir: 
+
+	(carpeta) auth --> auth-routing.module.ts | (auth.module.ts) | auth.page.html | ... entre otros archivos más
+
+
+2.Nuestra carpeta shared será importante ya que se exportaran aquellos componentes que necesitemos tal como el ejemplo de "header" para nuestros estilos para incorporarlo a 
+muchos de modulos que necesiten de este componentes , esto de acuerdo a lo que contengan nuestra carpeta principal. Tambien le asigaremos paramentros, estos parametros serán utiles
+para hacer dinamico algunas herramientas , por ejemplo el nombre de alguna vista o modulo "login" o "home". y al incluirla se irá declarando en llaves {{ (nombre del parametro) }} 
+estos parametros se inicializan en el component de header (header.component.ts)
+ 
+ 		   		  
+-----> Firebase <---------------------------------------
+1. Un punto principal de el uso de la el servicio de Google "Firebase", que da acceso a ciertos servicios que nos pueden ser utiles para nuestra aplicación y nos ahorra tiempo en nuestro codigo principal , asi como tambien eficacia , 
+(Anteriormente se utilizaba MYSQL, server APACHE) este cambio de herramienta fue muy util a la hora de mandar permisos de forma dinamica, restaurar contraseñas y el uso de varias formar de verificación para nuestra protección de la
+información de la APP.
+
+2. Para la integracción del proyecto además de varias librerias que se instalaron en nuestro proyecto (Verse en el archivo .txt "Rutas y comandos") para la correctaintegración de firebase se desactivo la opcion estricto que tiene por default habilitada Angular, esto debido a que es una configuración que habilita un conjunto de reglas más estrictas y mejoras de rendimiento en la compilación y ejecución de la aplicación. 
+Cuando el modo estricto está habilitado, Angular realiza verificaciones más rigurosas durante la compilación para detectar posibles errores y advertencias en el código. 
+Algunas veces, las bibliotecas externas, como Firebase, pueden no estar completamente alineadas con estas reglas estrictas de Angular, lo que puede provocar advertencias o errores durante la compilación o ejecución de la aplicación. Este cambio se hará en nuestro archivo - tsconfig.json -
+
+3. Si se desea enlazar el proyecto a otra cuenta en Google considera que contiene un identificador unico para cada base que se crea desde Firebase , simplemente para reemplazarlo es necesario cambiarlo en nuestro - app.module.ts - 
+
+3.1 Ejemplo: firebaseConfig = {  < ---  Se creará un objeto que contendrá la configuración y llave unica de nuestra base creada en firebase utilizara el export para inicialiar la configuracion de firebase y para enlazar nuestros datos al servicio de Firebase
+  apiKey: "AIzaSyDud7U1UZX08JBTy_08Fsgp8ke0Hb_41Dw",
+  authDomain: "empleados-66799.firebaseapp.com",
+  projectId: "empleados-66799",
+  storageBucket: "empleados-66799.appspot.com",
+  messagingSenderId: "37043416895",
+  appId: "1:37043416895:web:d7aa479e29e754e902ed8a",
+  measurementId: "G-S05S5PZQWM"
+
+3.2 Para la implentación sin errores o permisos se cambio en el archivo -tsconfi.json- el modo de "strict" de true a false, esto puede proporcionar flexibilidad al permitir que el código existente que no cumple con todas las restricciones del modo estricto continúe funcionando sin necesidad de modificaciones inmediatas. Tambien Algunas bibliotecas de terceros pueden no estar actualizadas para cumplir con todas las restricciones del modo estricto de TypeScript. Deshabilitar el modo estricto puede evitar problemas de compatibilidad al trabajar con estas bibliotecas. 
+
+4. Para utilizar las funciones y suscripciones de Firebase se creó una carpeta llamada "services" para hacer uso de ellas y crear funciones propias como el guardado , editado , filtrado y eliminado (CRUD) , asi como tambien otros como la autenticación para nuestro LOGIN.
+
+5. Para hacer uso de clases se uso "Inject" como import como alternativa del constructor , a la hora de inicializar variables que contenga o que le pasemos valores en donde se haga uso de un servicio
+es decir: 
+
+	import { AngularFireAuth } from '@angular/fire/compat/auth';
+
+	(nombre de la clase) = inject(nombre del servicio);
+
+6. Hay que tomar en cuenta que vamos a estar manejando información de la app a la base de datos, es por ello que para que veamos que esta funcionando esa comunicación de la app a la base de datos de firebase , necesitamos de mensajes e incluso de "spinners o preloader" animados, serán utiles puesto que nos servirá cuando tengamos un error o nuestra información tarde
+es por ello que se va a crear una carpeta nueva que pertenece a "services" se llamará "utils" se trabajará unicamente con el archivo de typescript (utils.service.ts)
+	
+	services ----|
+		     |     
+	|	     |
+	|	utils.service.ts (se trabará con esta carpeta)
+	|	     |
+	 ------------
+
+esta nueva carpeta nos servirá para agregar elementos extras, similar a la carpeta:  shared ----> (components)
+
+7. Directamente en nuestra base de datos de firebase , Firestore cuenta con una serie de reglas se cambio "permisos" para todo tipo de consultas
+	
+	allow read, write: if (false);
+			      |
+			      |------- Se va a cambiar por "true" (Para que nos permita visualizar nuesta información de la base con la app)
+
+IMPORTANTE: solo se hizo este cambio durante la creación de la app , al momento de subir la app con Android Studio
+
+8. Para importar la base de datos con Firebase se incluyo:
+
+	import  { AngularFirestore } from '@angular/fire/compat/firestore'; 
+	import { doc, getFirestore } from 'firebase/firestore';
+
+Para la creación de documentos para mis colecciones , en este caso solo tengo la colección de "users" en la base datos de firebase. 
+
+
+ 
+
+
+-----> Utils <---------------------------------------
+
+1. Para nuestro local storage se agregaron varios elementos y componentes importantes (Verse en tu editor de texto preferido, - archivo:  utils.service.ts), como punto inicial se va a hacer uso de varias funciones 
+para nuestro localstorage en donde se va almacenar o guardar nuestra información en documentos que se vayan creando para varios usuarios. 
+ 
+1.1 saveLocalStorage: Lo que va hacer será almacenar la información de usuario o una "key" esta key principal será nuestra uid y un valor de tipo "any" puesto que va almacenar cierta información que el usuario vaya a agregar
+para posteriormente convertirlo a tipo string cuando vaya a nuestro localstorage con un JSON, puesto todo lo que se guarda en el localstorage deberá ser de tipo string.
+
+1.2 getLocalStorage: Lo que hará será obtener la información de usuario o agarrar la key de tipo string , para volverla a pasar a su formato original y se me puedan ver los cambios en mi aplicación.
+
+
+-----> Protección entre vistas (GUARDS) <---------------------------------------
+
+1. Se implemento una herramienta muy importante, sobretodo para la protección de información para cada usuario, la implentación de los guardianes se realizo un "CanActivate" para el archivo principal
+para incorporar o agregar esta herramienta a nuestro proyecto se tiene que instalar atraves de nuestra consola a nivel proyecto (dependerá si contiene el mismo editor de texto un consola incluida, como lo es visual studio code)
+y se agrega la siguiente instrucción: - ionic generate guard (el nombre de la carpeta principal será "guards") guards/auth(para la autenticación al home) 
+
+
+2. El funcionamiento dentro de nuestra carpeta - auth.guards.ts - , realizará las acciones de acuerdo con una promesa en lugar de un booleano, para saber si es que hay un usuario autenticado o no y si existe entonces da el acceso al contenido sino no permitirá la navegación
+
+3. Se realizo una 2° validación esta tiene como proposito verificar si los datos del usuario existen en el localstorage
+
+4. Para una vez creados para activarlos a las vista , necesitamos aplicarlos en nuestro archivo - app-routing.module.ts -
+
+	path: 'main',
+    	loadChildren: () => import('./pages/main/main.module').then( m => m.MainPageModule),
+   ---> canActivate: [AuthGuard] (Especificamos el nombre que le hayamos dado , en este caso se le dio "authguard" por el nombre del archivo en donde se realizo) 
+
+
+
+----->   <---------------------------------------
+
+(ionInput) = "setNumberInput()"
+
+
+
+
+-----> Exportación/importación de base de datos  <---------------------------------------
+
+1. Tener la herramienta Node.js (será necesario para el envio de información de nuestra base)
+
+- Se utilizo la versión 18.18.0 para nuestro desarrollo y uso de Firebase CLI (Command Line Interface) para la instalación e incluir dependencias en un proyecto en particular
+
+2. si se desea exporta: npx -p node-firestore-import-export firestore-export -a (nombre del archivo).json -b backup.json
+
+3. si se desea importar: npx -p node-firestore-import-export firestore-import -a (nombre del archivo).json -b backup.json
+ 
+OJO, si se tiene información al importar en la base ya creada , ten en cuenta que debiste exportar esa información , puesto que esta acción va a sobreescribir los datos que se encuentren en la colección de la base de datos.

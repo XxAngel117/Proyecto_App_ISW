@@ -1,0 +1,64 @@
+---- Links para instalar algunos componentes ----
+https://angular.io/guide/setup-local
+https://nodejs.org/en
+	- https://nodejs.org/en/blog/release/v18.18.0 (Se utilizo la version 18.18.0)
+https://ionicframework.com/ (Aqui viene documentación para que puedan aprender o agregar plugins)
+https://windowsreport.com/es/habilitar-gpedit-msc/
+https://firebase.google.com/?gad_source=1&gclid=CjwKCAiAhJWsBhAaEiwAmrNyqwzrwxWTsCt5Ny2Q07lrTtkTFCQMyGdf9jp3mc4J_ymIimHPTobmDhoCxAoQAvD_BwE&gclsrc=aw.ds&hl=es-419
+(Se hará el cambio de herramientas en cuanto a bases de datos , en este caso firebase por  implementaciones (Login/Profile) dentro de la App
+https://console.firebase.google.com/project/empleados-66799/overview?hl=es-419
+https://ionic.io/ionicons?_gl=1*1ug9i6y*_ga*MTU5NDI1NzUyLjE3MDU5MDcyNTU.*_ga_REH9TJF6KF*MTcwNTkwNzI1NS4xLjAuMTcwNTkwNzI1OS4wLjAuMA.. (Pagina para agregar iconos a componentes de tu agrado)
+https://css.glass/ (Pagina para algunos estilos para nuestro splash)
+https://developer.android.com/studio?hl=es-419  (APK para incorporar Android Studio)
+https://apetools.webprofusion.com/#/tools/imagegorilla (Pagina para construir icons y splash)
+https://capacitorjs.com/docs/guides/splash-screens-and-icons (Alternativa, pagina oficial capacitor)
+
+*********************************************************************************************************************************************************************************************
+
+---- Comandos para verificar que tenemos instalado algunos componentes o de info ----
+ionic --version (version de ionic)
+node --version (version de node)
+npm version (version de new package module para generar dependecias -General)
+ng version (version de Angular)
+ionic --help (Servirá para ver para que sirven algunos comandos)
+Set-ExecutionPolicy Unrestricted
+ionic info (verificara las versiones de tus componetes instalados e incluso el tipo de aplicacion que estas creando asi como el sistema en el que esta montado)
+msinfo32 (Verifica los componentes de tu dispositivo)
+**************************************************************************************
+
+---- Algunas extensiones y comandos para nuestro editor de texto (No es importante , pero util para Visual y para el desarrollo) ----
+
+Angular Snippets (Nos ahorra creando estructuras)
+Angular Schematics (filtro de busqueda)
+Ionic snippets (Nos ayudara en algunas funciones)
+ctrl + . (Para agregar un import) -- esto dentro de visual code
+ctrl + D (Para seleccionar palabras en comun y que sean modificadas en conjunto)
+ctrl + } (Para comentar alguna linea de codigo automaticamente -- TODA LA LINEA )
+ctrl + space (Para autocompletar etiquetas, rutas etc)
+***********************************************************************************************
+
+---- Comandos para instalar o implementar componentes en nuestro proyecto atraves de la consola o powersheel de nuestro proyecto (Actualizado 2023 - cada cierto tiempo se actualiza)
+
+1. npm init @angular (nombre de la app) ---- Instala angular en nuestro proyecto u actualización
+2. *npm install firebase  -----------  (Ambas direcciones implementaran firebase a nuestro proyecto y algunos componentes)
+2.1 *npm i firebase @angular/fire ----- (Instala componentes de firebase, para la conexión de la base)
+3. npm i -g @ionic/cli ----- (Instala ionic a nivel global , IMPORTANTE para la creación de cualquier proyecto)
+----- >Se hará el uso de RouterLink (El routerLink es el selector para la directiva RouterLink que convierte los clics del usuario en navegaciones del enrutador. Es otra de las directivas públicas del RouterModule)
+4. npm install @capacitor/camera ----- Instalara nuestro plugin de camara trabajaremos con capacitor para implementarlo
+5. npx cap sync -----  Esta sentencia nos dice que si queremos sincronizar nuestra aplicacion con nuestro android studio 
+6. ionic g page (Carpeta padre)/splash ------- Generá un pagina para crear nuestro splash para nuestra App
+7. ionic g guard guards/auth (IMPORTANTE para proteger nuestra información se trabajar por guards para que no cualquier persona acceda)
+8. npm install @capacitor/android (Instala el paquete de android en nuestro proyecto)
+9. ionic capacitor build android (SI EL ANTERIOR COMANDO NO FUNCIONA PRUEBA CON ESTE OTRO, ES UN COMANDO GENERAL)
+10. npx cap add android (Instala Android platform) OJO este comando no será necesario si se realizo el comando n°8
+11.ionic capacitor sync ---- (Cuando necesites cambiar algo del codigo y volver a subir la app IMPORTANTE , primero sincroniza los datos y despues subes la app)
+12. ionic cap run android --external --source -I (Alternativa del comando anterior, aqui te abre la app generada)
+		
+	----- > android:usesCleartextTraffic="true" (Si se hace el uso de AJAX , esta linea en el AndroidManifest.xml ayudará al estar manipulando el texto va a  mandarlo al AJAX, si es que se trabaja con esa herramienta como alternativa de mensagge como en nuestro caso)
+
+Algunas dudas:
+
+1 . ¿Porque se utilizo Node.Js ? 
+- Node.js permite ejecutar JavaScript en el servidor, lo que facilita la creación de aplicaciones tanto en el lado del cliente como en el servidor con un lenguaje de programación coherente.
+- Tambien porque al instalar componentes utiles tales como calendario, camará  etc, e incluso instalaciones de algunos imports de nuestra app, cuenta con su propio administrador de paquetes llamado npm (Node Package Manager), que es fundamental para la gestión de dependencias en proyectos. Con npm, puedes instalar, actualizar y administrar fácilmente las bibliotecas y herramientas necesarias para tu proyecto, incluidas las relacionadas con Firebase.
+- Node.js proporciona una serie de herramientas de línea de comandos que son útiles para el desarrollo de aplicaciones, como la Firebase CLI (Command Line Interface). Estas herramientas permiten realizar tareas como implementar, administrar bases de datos, realizar pruebas y más, directamente desde la terminal de tu computadora.
