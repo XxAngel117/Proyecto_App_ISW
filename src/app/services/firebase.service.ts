@@ -160,5 +160,5 @@ export class FirebaseService {
     return this.addDocument(path, { name: newInstitutionName });
   }
 
-   
+    
 }

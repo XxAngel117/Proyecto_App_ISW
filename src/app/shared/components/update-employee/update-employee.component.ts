@@ -18,7 +18,7 @@ export class UpdateEmployeeComponent  implements OnInit {
 
   utils = inject(UtilsService); // Se va hacer uso de utils.service para invocar al routerlink
   firebaseService = inject(FirebaseService); // Estamos haciendo uso de el servicio de Firebase
-  user = {} as User; // Para guardar nuestro empleado , estamos trayendo todo lo que tengamos en nuestro modelo de user y podemows rescatar a uid, por eso el uso de llaves, ademas como no estamos trayendo objetos ni propiedades entonces le estamos añadiendo un alias de tipo User y ahora si , importrá nuestro modelo. necesitamos declarar a "user" para createEmployee para poder accesar a la raiz, es por eso que estamos habilitando user
+  user = {} as User; // Para guardar nuestro empleado , estamos trayendo todo lo que tengamos en nuestro modelo de user y podemos rescatar a uid, por eso el uso de llaves, ademas como no estamos trayendo objetos ni propiedades entonces le estamos añadiendo un alias de tipo User y ahora si , importrá nuestro modelo. necesitamos declarar a "user" para createEmployee para poder accesar a la raiz, es por eso que estamos habilitando user
   curpValue: string;
   newInstitutionName: string = ''; // Variable para almacenar el nombre de la nueva institución
 
@@ -33,9 +33,8 @@ export class UpdateEmployeeComponent  implements OnInit {
     position_2: new FormControl('', [Validators.required]),
     adscription: new FormControl('', [Validators.required]),
     no_employee: new FormControl('', [Validators.required,Validators.minLength(4),Validators.maxLength(4)]),
-    enrollment: new FormControl('', [Validators.required,Validators.minLength(9),Validators.maxLength(9)]),
     institution: new FormControl('', [Validators.required]),
-    newInstitution: new FormControl(''),
+    // newInstitution: new FormControl(''),
     curp: new FormControl('', [Validators.required, Validators.pattern(UpdateEmployeeComponent.curpRegex), Validators.maxLength(18)]),
     nss: new FormControl('', [Validators.required,Validators.pattern(/^\d+$/),Validators.minLength(11), Validators.maxLength(11)]),
     blood_type: new FormControl('', [Validators.required]),
@@ -95,16 +94,16 @@ export class UpdateEmployeeComponent  implements OnInit {
       if(this.employee) this.updateEmployee(); // Si es valido entonces vamos a mandarle "employee" y vamos a mandar nuestra función de update
       else this.createEmployee(); // Si no existe, entonces va a lanzar la función para crearla
 
-      if (this.form.value.institution === 'other') {
-        const newInstitutionName = this.form.value.newInstitution;
-        console.log('Nueva institución:', newInstitutionName);
-        await this.saveNewInstitution();
+      // if (this.form.value.institution === 'other') {
+      //   const newInstitutionName = this.form.value.newInstitution;
+      //   console.log('Nueva institución:', newInstitutionName);
+      //   await this.saveNewInstitution();
 
-      } else {
-        const selectedInstitution = this.form.value.institution;
-        console.log('Institución seleccionada:', selectedInstitution);
-        await this.saveOrUpdateEmployee();
-      }
+      // } else {
+      //   const selectedInstitution = this.form.value.institution;
+      //   console.log('Institución seleccionada:', selectedInstitution);
+      //   await this.saveOrUpdateEmployee();
+      // }
 
     }
 
@@ -112,32 +111,32 @@ export class UpdateEmployeeComponent  implements OnInit {
 
   }
 
-  async saveNewInstitution() {
-    if (this.newInstitutionName.trim() !== '') { // Verifica que el nombre de la institución no esté vacío
-      try {
-        await this.firebaseService.saveNewInstitution(this.newInstitutionName); // Llama a la función saveNewInstitution del servicio FirebaseService
-        // Limpiar el campo de nombre de la nueva institución después de agregarla exitosamente
-        this.newInstitutionName = '';
-        // Puedes agregar aquí lógica adicional, como mostrar un mensaje de éxito o actualizar la lista de instituciones
-      } catch (error) {
-        console.error('Error al guardar la nueva institución:', error);
-        // Puedes agregar aquí lógica adicional para manejar el error, como mostrar un mensaje de error al usuario
-      }
-    } else {
-      console.error('El nombre de la nueva institución no puede estar vacío');
-      // Puedes agregar aquí lógica adicional para informar al usuario que el nombre de la institución no puede estar vacío
-    }
-  }
+  // async saveNewInstitution() {
+  //   if (this.newInstitutionName.trim() !== '') { // Verifica que el nombre de la institución no esté vacío
+  //     try {
+  //       await this.firebaseService.saveNewInstitution(this.newInstitutionName); // Llama a la función saveNewInstitution del servicio FirebaseService
+  //       // Limpiar el campo de nombre de la nueva institución después de agregarla exitosamente
+  //       this.newInstitutionName = '';
+  //       // Puedes agregar aquí lógica adicional, como mostrar un mensaje de éxito o actualizar la lista de instituciones
+  //     } catch (error) {
+  //       console.error('Error al guardar la nueva institución:', error);
+  //       // Puedes agregar aquí lógica adicional para manejar el error, como mostrar un mensaje de error al usuario
+  //     }
+  //   } else {
+  //     console.error('El nombre de la nueva institución no puede estar vacío');
+  //     // Puedes agregar aquí lógica adicional para informar al usuario que el nombre de la institución no puede estar vacío
+  //   }
+  // }
 
-  async saveOrUpdateEmployee() {
-    // Implementa aquí la lógica para guardar o actualizar el empleado en la base de datos
-    // Por ejemplo:
-    // if (this.employee) {
-    //   await this.firebaseService.updateEmployee(this.employee.id, this.form.value);
-    // } else {
-    //   await this.firebaseService.createEmployee(this.form.value);
-    // }
-  }
+  // async saveOrUpdateEmployee() {
+  //   // Implementa aquí la lógica para guardar o actualizar el empleado en la base de datos
+  //   // Por ejemplo:
+  //   // if (this.employee) {
+  //   //   await this.firebaseService.updateEmployee(this.employee.id, this.form.value);
+  //   // } else {
+  //   //   await this.firebaseService.createEmployee(this.form.value);
+  //   // }
+  // }
 
   async takeImage (){
 
@@ -238,7 +237,6 @@ export class UpdateEmployeeComponent  implements OnInit {
     loading.dismiss();
   })
     
-
   }
  
 }

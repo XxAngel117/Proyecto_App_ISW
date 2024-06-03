@@ -8,52 +8,15 @@
 
  <ion-searchbar animated placeholder="Buscar estudiantes o empleados..." mode="ios"  (ionChange)="onSearch($event)" debounce=1000 ></ion-searchbar> 
 
-<!-- Resultados de la busqueda de datos  -->
+  <!-- Lista de empleados --> 
 
-  <!-- <ion-item lines="none" *ngFor="let u of employees">
-
-     <ion-avatar slot="start">
-      <img src="{{ u.img }}" alt="">
-    </ion-avatar> -->
-
-    <!-- <ion-label> 
-
-      <h4> {{ u.name }}</h4>
-      <h4> {{ u.enrollment }}</h4>
-
-    </ion-label> -->
-
-  <!-- </ion-item>  -->
-
-  <!-- <ion-card mode="ios" color="warning" class="d-flex-center ion-text-center" *ngIf="!loading && employees " > <!-- Ion-card para ingresos o egresos de empleados condicionamos si no esta cargando y si existen empleados entonces desplegará la información que queremos -->
-    
-    <!-- <div> 
-
-      <h5> {{  employees.length }} </h5>
-
-      <p> Empleados </p>
-
-    </div> -->
-
-    <!-- <div> 
-
-      <h5> {{  getBills() | currency: 'MXN' }} </h5>
-
-      <p> Empleados </p>
-
-    </div> -->
-
-  <!-- </ion-card>  -->
-
-  <!-- Primer lista (items) --> 
-
-  <ion-list *ngIf="!loading"> <!-- Condiciomamos a nuestro lista , si es que no esta cargando nuestro loading , entonces que nos aparezca todos nuestros datos -->
+  <ion-list *ngIf="!loading && employees.length > 0">  <!-- Condiciomamos a nuestro lista , si es que no esta cargando nuestro loading , entonces que nos aparezca todos nuestros datos -->
 
     <ion-item-sliding class="product-item" *ngFor="let empleado of employees"> <!-- Realizara la accion de desplegar las acciones dentro de los perfiles o items, tambien le pasaremos un ngfor para que se nos reflejen todos nuestros items  -->
       <ion-item>
 
         <ion-avatar slot="start">
-          <img [src]="empleado.img" alt="">
+          <img [src]="empleado.img" alt="Empleados">
         </ion-avatar>
 
         <ion-label>
@@ -65,7 +28,6 @@
           <strong>  Puesto administrativo:   </strong> {{ empleado.position_2 }} <br>
           <strong> No.Empleado :   </strong> {{ empleado.no_employee }} <br>
           <strong> Adscripción :   </strong> {{ empleado.adscription }} <br>
-          <!-- <strong> Matrícula :   </strong> {{ empleado.enrollment }} <br> -->
           <strong> Institución :   </strong> {{ empleado.institution }} <br>
           <strong> CURP :   </strong> {{ empleado.curp }} <br>
           <strong> NSS :   </strong> {{ empleado.nss }} <br>
@@ -79,26 +41,57 @@
       </ion-item>
 
       <ion-item-options> 
-
-        <ion-item-option (click)="addUpdateEmployee(empleado)">
-          <ion-icon class="option-btn"  name="create-outline"></ion-icon>
-        </ion-item-option>  
-
-        <ion-item-option (click)="confirmDeleteEmployee(empleado)"color="danger">
-          <ion-icon class="option-btn"  name="trash-outline"></ion-icon>
-        </ion-item-option>
-
+          <ion-item-option (click)="addUpdateEmployee(empleado)">
+            <ion-icon class="option-btn"  name="create-outline"></ion-icon>
+          </ion-item-option>  
       </ion-item-options>
 
     </ion-item-sliding>
 
-  </ion-list>  
+  </ion-list>
+  
+     <!-- List for Students -->
+  <ion-list *ngIf="!loading && students.length > 0">
+    <ion-item-sliding class="product-item" *ngFor="let student of students">
+      <ion-item>
+        <ion-avatar slot="start">
+          <img [src]="student.img" alt="Estudiante">
+        </ion-avatar>
+        <ion-label>
+          <div class="name">{{ student.name }} {{ student.lastname_p }} {{ student.lastname_m }}</div>
+          <div class="data">
+            <strong>Género:</strong> {{ student.genre }}<br>
+            <strong>Carrera:</strong> {{ student.degree }}<br>
+            <strong>Matrícula:</strong> {{ student.enrollment }}<br>
+            <strong>Institución:</strong> {{ student.institution }}<br>
+            <strong>Cuatrímestre:</strong> {{ student.quarter }}<br>
+            <strong>Grupo:</strong> {{ student.group }}<br>
+            <strong>Inclusión:</strong> {{ student.inclusion }}<br>
+            <strong>Generación:</strong> {{ student.generation }}<br>
+            <strong>CURP:</strong> {{ student.curp }}<br>
+            <strong>Numero de seguro social:</strong> {{ student.nss }}<br>
+            <strong>Tipo de sangre:</strong> {{ student.blood_type }}<br>
+            <strong>ID_Key1:</strong> {{ student.id_key }}<br>
+            <strong>ID_Key2:</strong> {{ student.id_key2 }}<br>
+          </div>  
+        </ion-label>
+      </ion-item>
+
+      <ion-item-options>
+        <ion-item-option (click)="addUpdateStudent(student)">
+          <ion-icon class="option-btn" name="create-outline"></ion-icon>
+        </ion-item-option>  
+      </ion-item-options>
+
+    </ion-item-sliding>
+  </ion-list>
+
 
   <!-- Segunda Lista (items) Esto para que servirá , simulará que esta cargando un spinner, en realidad serán objetos que estan cargando -->
 
   <ion-list *ngIf="loading"> <!-- Condiciomamos a nuestro lista , si es que no esta cargando nuestro loading , entonces que nos aparezca todos nuestros datos -->
 
-    <ion-item-sliding class="product-item" *ngFor="let empleado of [1,1,1,1,1,1]"> <!-- Realizara la accion de desplegar las acciones dentro de los perfiles o items, tambien le pasaremos un ngfor para que se nos reflejen todos nuestros items  -->
+    <ion-item-sliding class="product-item" *ngFor="let item of [1,1,1,1,1,1]"> <!-- Realizara la accion de desplegar las acciones dentro de los perfiles o items, tambien le pasaremos un ngfor para que se nos reflejen todos nuestros items  -->
       <ion-item>
 
         <ion-avatar slot="start"> <!-- En lugar de que sea la imagen del avatar vamos a indicarle que traiga un skeleton -->
@@ -123,19 +116,19 @@
 
   </ion-list>  
 
-  <div class="empty" *ngIf="!loading && !employees.length">
+  <div class="empty" *ngIf="!loading && !employees.length && !students.length">
 
     <ion-icon name="person-outline"></ion-icon>
     <h3> No hay empleados o estudiantes disponibles </h3>
 
   </div>
 
-<!--  Boton de crear nuevo empleado o estudiante -->
+ <!-- Boton de crear nuevo empleado o estudiante
   <ion-fab vertical="bottom" horizontal="end" slot="fixed">
     <ion-fab-button (click)="addUpdateEmployee()">
       <ion-icon name="add"></ion-icon>
     </ion-fab-button>
-  </ion-fab>
+  </ion-fab> -->
 
 
 </ion-content>

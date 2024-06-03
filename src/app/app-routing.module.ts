@@ -27,10 +27,18 @@ const routes: Routes = [
     loadChildren: () => import('./pages/main/main.module').then( m => m.MainPageModule),
     // canActivate: [AuthGuard] // Activamos el guard para el home 
   },
+  {
+    path: 'employees',
+    loadChildren: () => import('./pages/main/employees/employees.module').then( m => m.EmployeesPageModule)
+  },
+  {
+    path: 'students',
+    loadChildren: () => import('./pages/main/students/students.module').then( m => m.StudentsPageModule)
+  },
    {
      path: 'splash',
      loadChildren: () => import('./pages/splash/splash.module').then( m => m.SplashPageModule)
-   },
+   }
 
 ];
 

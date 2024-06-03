@@ -15,7 +15,7 @@
       <h4> {{ user()?.name }} </h4>  <!-- Mandamos a traer nuestra función de user para traer el nombre que esta enlazado a firebase con una sesión iniciada -->      
 
       <ion-menu-toggle autoHide="false" *ngFor="let p of pages"> <!---- Aqui se va a traer los modulos que contiene "pages" y se haran visibles dentro del main, asi como las direcciones de cada uno. Mientras que el autohide los hace visibles  ---->
-        <ion-item [ngClass]="{'active': currentPath === p.url}" [routerLink]="p.url" routerDirection="root" detail> <!-- El detail es la flecha de los modulos -->
+        <ion-item [ngClass]="{'active': currentPath === p.url}" [routerLink]="p.url" routerDirection="root" detail> <!-- Una vez dando click navegará dentro de los modulos El detail es la flecha de los modulos -->
           <ion-icon slot="start" [name]="p.icon"></ion-icon> <!--- Traeremos un icono --->
           <ion-label>{{ p.title }}</ion-label> <!-- Traeremos un titulo -->
         </ion-item>

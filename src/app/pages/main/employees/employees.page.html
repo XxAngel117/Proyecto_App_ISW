@@ -1,0 +1,72 @@
+<app-header [showMenu]="true" title="Empleados"></app-header>
+
+<ion-content>
+
+  <ion-refresher slot="fixed" (ionRefresh)="doRefresh($event)">
+    <ion-refresher-content></ion-refresher-content>
+  </ion-refresher>
+
+  <ion-searchbar animated placeholder="Buscar empleados..." mode="ios" (ionChange)="onSearch($event)" debounce=1000></ion-searchbar>
+
+  <ion-list *ngIf="!loading">
+    <ion-item-sliding class="product-item" *ngFor="let empleado of employees">
+      <ion-item>
+        <ion-avatar slot="start">
+          <img [src]="empleado.img" alt="">
+        </ion-avatar>
+        <ion-label>
+          <div class="name">{{ empleado.name }} {{ empleado.lastname_p }} {{ empleado.lastname_m }}</div>
+          <div class="data">
+            <strong>Género:</strong> {{ empleado.genre }}<br>
+            <strong>Puesto del docente:</strong> {{ empleado.position_1 }}<br>
+            <strong>Puesto administrativo:</strong> {{ empleado.position_2 }}<br>
+            <strong>No. Empleado:</strong> {{ empleado.no_employee }}<br>
+            <strong>Adscripción:</strong> {{ empleado.adscription }}<br>
+            <strong>Institución:</strong> {{ empleado.institution }}<br>
+            <strong>CURP:</strong> {{ empleado.curp }}<br>
+            <strong>NSS:</strong> {{ empleado.nss }}<br>
+            <strong>Tipo de sangre:</strong> {{ empleado.blood_type }}<br>
+            <strong>ID_Key1:</strong> {{ empleado.id_key }}<br>
+            <strong>ID_Key2:</strong> {{ empleado.id_key2 }}<br>
+          </div>
+        </ion-label>
+      </ion-item>
+      <ion-item-options>
+        <ion-item-option (click)="addUpdateEmployee(empleado)">
+          <ion-icon class="option-btn" name="create-outline"></ion-icon>
+        </ion-item-option>
+        <ion-item-option (click)="confirmDeleteEmployee(empleado)" color="danger">
+          <ion-icon class="option-btn" name="trash-outline"></ion-icon>
+        </ion-item-option>
+      </ion-item-options>
+    </ion-item-sliding>
+  </ion-list>
+
+  <ion-list *ngIf="loading">
+    <ion-item-sliding class="product-item" *ngFor="let empleado of [1,1,1,1,1,1]">
+      <ion-item>
+        <ion-avatar slot="start">
+          <ion-skeleton-text animated style="width: 100%; height: 100%;"></ion-skeleton-text>
+        </ion-avatar>
+        <ion-label>
+          <div>
+            <ion-skeleton-text animated style="width: 50%;"></ion-skeleton-text>
+            <ion-skeleton-text animated style="width: 30%;"></ion-skeleton-text>
+          </div>
+        </ion-label>
+      </ion-item>
+    </ion-item-sliding>
+  </ion-list>
+
+  <div class="empty" *ngIf="!loading && !employees.length">
+    <ion-icon name="person-outline"></ion-icon>
+    <h3>No hay empleados disponibles</h3>
+  </div>
+
+  <ion-fab vertical="bottom" horizontal="end" slot="fixed">
+    <ion-fab-button (click)="addUpdateEmployee()">
+      <ion-icon name="add"></ion-icon>
+    </ion-fab-button>
+  </ion-fab>
+
+</ion-content>

@@ -6,7 +6,7 @@ import { Camera, CameraResultType, CameraSource } from '@capacitor/camera';
 @Injectable({
   providedIn: 'root'
 })
-export class UtilsService {
+export class UtilsService { 
 
   router = inject(Router); // Insertamos una variable para nuestro routerlink
   toast = inject(ToastController); // Insertamos una variable para nuestro Toast, esta herramienta proviene de ionic/angular

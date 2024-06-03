@@ -21,7 +21,9 @@ export class MainPage implements OnInit {
   pages = [
 
   { title: 'Inicio', url: '/main/home', icon: 'home-outline' },
-  { title: 'Perfil', url: '/main/profile', icon: 'person-outline' }  
+  { title: 'Perfil', url: '/main/profile', icon: 'person-outline' },
+  { title: 'Estudiantes', url: '/main/students', icon: 'book-outline' },
+  { title: 'Empleados', url: '/main/employees', icon: 'people-outline' }
 
   ]
 

@@ -1,0 +1,74 @@
+<app-header [showMenu]="true" title="Estudiantes"></app-header>
+
+<ion-content>
+
+  <ion-refresher slot="fixed" (ionRefresh)="doRefresh($event)">
+    <ion-refresher-content></ion-refresher-content>
+  </ion-refresher>
+
+  <ion-searchbar animated placeholder="Buscar estudiantes..." mode="ios" (ionChange)="onSearch($event)" debounce=1000></ion-searchbar>
+
+  <ion-list *ngIf="!loading">
+    <ion-item-sliding class="product-item" *ngFor="let student of students">
+      <ion-item>
+        <ion-avatar slot="start">
+          <img [src]="student.img" alt="">
+        </ion-avatar>
+        <ion-label>
+          <div class="name">{{ student.name }} {{ student.lastname_p }} {{ student.lastname_m }}</div>
+          <div class="data">
+            <strong>Género:</strong> {{ student.genre }}<br>
+            <strong>Carrera:</strong> {{ student.degree }}<br>
+            <strong>Matrícula:</strong> {{ student.enrollment }}<br>
+            <strong>Institución:</strong> {{ student.institution }}<br>
+            <strong>Cuatrímestre:</strong> {{ student.quarter }}<br>
+            <strong>Grupo:</strong> {{ student.group }}<br>
+            <strong>Inclusión:</strong> {{ student.inclusion }}<br>
+            <strong>Generación:</strong> {{ student.generation }}<br>
+            <strong>CURP:</strong> {{ student.curp }}<br>
+            <strong>Numero de seguro social:</strong> {{ student.nss }}<br>
+            <strong>Tipo de sangre:</strong> {{ student.blood_type }}<br>
+            <strong>ID_Key1:</strong> {{ student.id_key }}<br>
+            <strong>ID_Key2:</strong> {{ student.id_key2 }}<br>
+          </div>
+        </ion-label>
+      </ion-item>
+      <ion-item-options>
+        <ion-item-option (click)="addUpdateStudent(student)">
+          <ion-icon class="option-btn" name="create-outline"></ion-icon>
+        </ion-item-option>
+        <ion-item-option (click)="confirmDeleteStudent(student)" color="danger">
+          <ion-icon class="option-btn" name="trash-outline"></ion-icon>
+        </ion-item-option>
+      </ion-item-options>
+    </ion-item-sliding>
+  </ion-list>
+
+  <ion-list *ngIf="loading">
+    <ion-item-sliding class="product-item" *ngFor="let student of [1,1,1,1,1,1]">
+      <ion-item>
+        <ion-avatar slot="start">
+          <ion-skeleton-text animated style="width: 100%; height: 100%;"></ion-skeleton-text>
+        </ion-avatar>
+        <ion-label>
+          <div>
+            <ion-skeleton-text animated style="width: 50%;"></ion-skeleton-text>
+            <ion-skeleton-text animated style="width: 30%;"></ion-skeleton-text>
+          </div>
+        </ion-label>
+      </ion-item>
+    </ion-item-sliding>
+  </ion-list>
+
+  <div class="empty" *ngIf="!loading && !students.length">
+    <ion-icon name="person-outline"></ion-icon>
+    <h3>No hay estudiantes disponibles</h3>
+  </div>
+
+  <ion-fab vertical="bottom" horizontal="end" slot="fixed">
+    <ion-fab-button (click)="addUpdateStudent()">
+      <ion-icon name="add"></ion-icon>
+    </ion-fab-button>
+  </ion-fab>
+
+</ion-content>

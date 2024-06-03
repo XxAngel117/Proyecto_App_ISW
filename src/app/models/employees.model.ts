@@ -1,4 +1,4 @@
-export interface Employees {
+export interface Employees { 
 
     id: string,
     position_1: string,
@@ -8,7 +8,6 @@ export interface Employees {
     lastname_p: string,
     lastname_m: string,
     no_employee: string,
-    enrollment: string,
     institution: string,
     newInstitution: string,
     nss: string,
