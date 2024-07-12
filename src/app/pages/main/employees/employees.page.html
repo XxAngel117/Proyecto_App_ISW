@@ -63,10 +63,24 @@
     <h3>No hay empleados disponibles</h3>
   </div>
 
-  <ion-fab vertical="bottom" horizontal="end" slot="fixed">
+  <ion-fab vertical="bottom" horizontal="center" slot="fixed">
     <ion-fab-button (click)="addUpdateEmployee()">
       <ion-icon name="add"></ion-icon>
     </ion-fab-button>
   </ion-fab>
+
+  <ion-fab vertical="bottom" horizontal="start" slot="fixed">
+    <ion-fab-button class="btn-export">
+      <ion-icon name="cloud-upload"></ion-icon>
+    </ion-fab-button>
+  </ion-fab>
+
+  <ion-fab vertical="bottom" horizontal="end" slot="fixed">
+    <ion-fab-button class="btn-import">
+      <ion-icon name="download-outline"></ion-icon>
+    </ion-fab-button>
+  </ion-fab>
+
+  <!-- <input type="file" (change)="onFileSelected($event)" accept=".csv" /> -->
 
 </ion-content>

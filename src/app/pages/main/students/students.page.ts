@@ -5,6 +5,7 @@ import { User } from 'src/app/models/user.model';
 import { FirebaseService } from 'src/app/services/firebase.service';
 import { UtilsService } from 'src/app/services/utils.service';
 import { UpdateStudentComponent } from 'src/app/shared/components/update-student/update-student.component';
+import { ExcelService } from 'src/app/services/excel.service';
 
 @Component({
   selector: 'app-students',
@@ -17,17 +18,103 @@ export class StudentsPage implements OnInit {
 
   searchTerm: string = '';
   utils = inject(UtilsService); // Se va hacer uso de utils.service para invocar al routerlink
+  excelService = inject(ExcelService);
   firebaseService = inject(FirebaseService);
   loading: boolean = false; // El spinnner se va a traer para ver si existe algo , es decir si nos va a cargar nuestros datos o no
   students: Student[] = []; // Creamos una variable para traer el modelo de employees , ademas este nos va a traer un arreglo de objetos y igualamos con corchetes []  porque serán varios arreglos
+  filteredStudents: Student[] = [];
 
   ngOnInit() { 
   }
 
   ionViewWillEnter () { // Esta función va a sustituír la acción de la función de ngOnInit, Esta función será util porque , que pasaría si debemos crear, editar un empleado, esta función hace un "refresh" de la información automaticamente, sin necesitar de activarlo o desactivar esta función desde ngOnInit
 
-    this.getStudent()
+    this.getStudent();
 
+  }
+
+   // Importar archivo Excel
+   onFileSelected(event: any) {
+
+    const file = event.target.files[0];
+
+    if (file) {
+      this.excelService.readExcelFile(file).then(data => {
+        this.importDataToFirebase(data);
+      }).catch(error => {
+        console.error('Error reading Excel file:', error);
+      });
+    }
+  }
+
+  // Subir datos a Firebase
+  async importDataToFirebase(data: any[]) {
+    const collectionPath = `users/${this.user().uid}/estudiantes`;
+    const batchSize = 100; // Tamaño del lote
+    this.loading = true;
+
+    for (let i = 0; i < data.length; i += batchSize) {
+
+      const batch = data.slice(i, i + batchSize);
+      const promises = batch.map(async student => {
+
+        const transformedStudent: Student = {
+
+          id: this.firebaseService.generateId(),  // Será generado por Firebase
+          img: student.FOTO ? student.FOTO.trim() : '',  
+          name: student.Nombre || '',
+          inclusion: student.Inclusión === "Inclusión" ? "Sí" : "No",
+          generation: student.Generación || '',
+          enrollment: student.Matricula || '',
+          group: student.Grupo || '',
+          genre: student.Genero || '',
+          quarter: student.Cuatrimestre || '',
+          status: student.Activo || '',
+          degree: student.Carrera || '',
+          id_key: student['ID1 (credencial)'] ? student['ID1 (credencial)'].toString() : ''
+
+        };
+
+        // If student.FOTO is empty, img remains an empty string
+        if (transformedStudent.img) {
+          
+          const imgPath = `images/${this.user().uid}/${Date.now()}_${student.Nombre}`.trim();
+
+          try {
+            console.log('Path:', imgPath);
+            console.log('Data URL:', transformedStudent.img);
+            transformedStudent.img = await this.firebaseService.updateImg(imgPath, transformedStudent.img);
+          } catch (error) {
+            console.error('Error al subir la image, espacio vacio:', error);
+            transformedStudent.img = ''; // Set to empty string on error
+          }
+        }
+
+        const documentId = this.firebaseService.generateId(); // Genera un ID único para el documento
+        const documentPath = `${collectionPath}/${documentId}`.trim(); // Crea la ruta del documento
+
+        transformedStudent.id = documentId;
+
+        return this.firebaseService.setDocument(documentPath, transformedStudent)
+          .then(() => {
+            console.log(`Estudiante ${student.Nombre} agregado exitosamente`);
+          }).catch(error => {
+            console.error('Error agregando estudiante:', error);
+          });
+      });
+
+      // Esperar a que se complete el lote antes de continuar con el siguiente
+      await Promise.all(promises);
+    }
+
+    this.loading = false;
+    this.getStudent();
+  }
+
+  // Exportar datos a archivo Excel
+  exportDataToExcel() {
+    const dataToExport = this.students.map(({ id, ...rest }) => rest);
+    this.excelService.exportAsExcelFile(dataToExport, 'estudiantes');
   }
 
   getStudentSearch() { 
@@ -48,25 +135,35 @@ export class StudentsPage implements OnInit {
       )
       .subscribe({
         next: (resp: any) => {
-          // Filtrar empleados según el término de búsqueda
-          this.students = resp.filter(student =>
-          `${student.name} ${student.lastname_p} ${student.lastname_m}`.toLowerCase().includes(this.searchTerm.toLowerCase()) ||
-            student.id_key.toLowerCase().includes(this.searchTerm.toLowerCase()) ||
-            student.id_key2.toLowerCase().includes(this.searchTerm.toLowerCase()) ||
-            student.enrollment.toLowerCase().includes(this.searchTerm.toLowerCase()) ||
-            student.curp.toLowerCase().includes(this.searchTerm.toLowerCase()) ||
-            student.nss.toLowerCase().includes(this.searchTerm.toLowerCase()) 
-          );
-  
+          // Filtrar estudintes según el término de búsqueda
+          this.students = resp;
+          this.filteredStudents = this.filterStudents(resp, this.searchTerm);
           this.loading = false;
           sub.unsubscribe();
         },
       });
   }
 
-  onSearch(event: CustomEvent) {
+  filterStudents(students: Student[], searchTerm: string): Student[] {
+    return students.filter(student =>
+      `${student.name}`.toLowerCase().includes(searchTerm.toLowerCase()) ||
+      student.id_key.toLowerCase().includes(searchTerm.toLowerCase()) ||
+      student.enrollment.toLowerCase().includes(searchTerm.toLowerCase()) 
+
+    );
+  }
+
+  async onSearch(event: CustomEvent) {
     this.searchTerm = event.detail.value || '';
-    this.getStudentSearch();
+    this.loading = true;
+    this.filteredStudents = this.filterStudents(this.students, this.searchTerm);
+    await this.simulateLoading(); // Simulate loading
+    this.loading = false; // Stop loading animation
+
+  }
+
+  async simulateLoading() {
+    return new Promise(resolve => setTimeout(resolve, 500)); // Simulate 500ms delay
   }
 
   async addUpdateStudent(students?: Student){ // Está funcion nos ayudará para crear el modal , además de que se agregará a nuestra accion de actualizar 
@@ -91,8 +188,8 @@ export class StudentsPage implements OnInit {
   }
 
   getStudent(){ // Función para obtener a los empleados que estamos creando , para ello necesitamos recibit nuestro path o raiz "user/uid/empleados" 
-
-    let path = `users/${this.user().uid}/estudiantes`;
+  
+    const path = `users/${this.user().uid}/estudiantes`;
 
     this.loading = true; // Si existe algo entonces el spinnner lo detectará
 
@@ -104,13 +201,19 @@ export class StudentsPage implements OnInit {
       })))
     ).subscribe({ // Nos vamos a suscribir para que nosotro arrojemos esos resultados
       next: (resp: any) => { // Nos conectaremos con un next que nos genere una respuesta
+        console.log('Data retrieved from Firebase:', resp);  // Agregar esta línea para depuración
         this.students = resp // Traeremos a employees para que se iguale lo que estamos trayendo atraves del arreglo [Employees]y lo igualamos a la respuesta  a la que estamos trayendo
+        this.filteredStudents = this.filterStudents(resp, this.searchTerm);
 
         // console.log(this.employees)
         this.loading = false; // Una vez que sepamos que esta trayendo nuestra información o los objetos que deje de cargar
         sub.unsubscribe(); // Al final nuestra variable sub recibirá la desubscripción del servicio para evitar que se sobrecarge de archivos , como si fuera un ciclo for
+      },
+      error: (error) => {
+        console.error('Error retrieving students:', error);
+        this.loading = false;
       }
-    }) 
+    }); 
     
   }
   
@@ -127,12 +230,12 @@ export class StudentsPage implements OnInit {
 
   async deleteStudent(student: Student){ // Esta función nos servirá para poder eliminar el empleado , por ello traemos toda la información con la cual identificaremos ese empleado que queremos borrar
 
-    let path = `users/${this.user().uid}/estudiantes/${student.id}`; // Recopilamos nuestro path o raiz general, identificamos el path junto con el employee con su id
+    const path = `users/${this.user().uid}/estudiantes/${student.id}`; // Recopilamos nuestro path o raiz general, identificamos el path junto con el employee con su id
 
     const loading = await this.utils.loading(); // Esperamos a que traiga 
     await loading.present(); // Aparecerá nuestro spinner cuando se hara nuestra acción
 
-    let imgPath = await this.firebaseService.getFilePath(student.img); // Vamos a traer nuestro archivo de nuestra imagen para poder borrarla con mayor antelación
+    const imgPath = await this.firebaseService.getFilePath(student.img); // Vamos a traer nuestro archivo de nuestra imagen para poder borrarla con mayor antelación
     await this.firebaseService.deleteFile(imgPath);
 
     // Mandamos la actualización o mandamos el documento con la información del formulario
@@ -141,6 +244,7 @@ export class StudentsPage implements OnInit {
     .then(async resp =>{ 
 
       this.students = this.students.filter(e => e.id !== student.id); // Aqui le vamos a mandar una señal que los empleados van a ser filtrados y ser actualizados 
+      this.filteredStudents = this.filterStudents(this.students, this.searchTerm);
 
       this.utils.dismissModal({ success: true }); // Aqui haremos que una vez de que nuestro modal se desactive o se descarte se muestre un mensaje de que nuestro empleado a sido creado 
       this.utils.presentToast({

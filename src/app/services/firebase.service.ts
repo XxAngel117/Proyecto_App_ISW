@@ -8,7 +8,8 @@ import { doc, getFirestore } from 'firebase/firestore';
 import { UtilsService } from './utils.service';
 import { deleteObject, getDownloadURL, getStorage, ref, uploadString } from 'firebase/storage';
 
-@Injectable({
+
+@Injectable({ 
   providedIn: 'root'
 })
 export class FirebaseService {
@@ -59,7 +60,7 @@ export class FirebaseService {
 
   // --------------- Función de envio de datos a firebase --------------- //
 
-  setDocument(path: any, data: any ) // Se adjunto "path" para saber donde añadimos esa información y nuestra data
+  setDocument(path: string, data: any ) // Se adjunto "path" para saber donde añadimos esa información y nuestra data
   { 
 
     return setDoc(doc(getFirestore(), path), data) // Se va a mandar una nueva función para nuestro set y va a recibir nuestra data , gracias a nuestra función "getFirestore"
@@ -105,12 +106,25 @@ export class FirebaseService {
   
    // --------------- Función para actualizar foto una vez subida en nuestra app  --------------- //
 
-   async updateImg (path: any, data_url: any){ // Le estaremos trayendo la ruta o raiz y nuestra data_url para indicarle a donde va a ir
+   async updateImg(path: string, data_url: string){ // Le estaremos trayendo la ruta o raiz y nuestra data_url para indicarle a donde va a ir
 
-    return uploadString(ref(getStorage(), path), data_url, 'data_url') // Retornaremos un upload de tipo string y este debe de traer una referencia , esa referencia vamos añadirle un getstorage para que se almacene en nuestro storage de firebase que me permite guardar imagenes o diferente multimedia, ademas de traer nuestra ruta o raiz traeremos nuestra data-url o dato que queremos almacenar como data_url
-    .then(() =>{ // Necesitaremos suscribirnos al servicio con .then y nos va a retornar ahora si nuestro getdownload con nuestra referencia en el storage
-      return getDownloadURL(ref(getStorage(), path)) // guardamos el dato dentro de nuestro getstorage con esa ruta
-    })
+    path = path.trim();
+
+    // Asegúrate de que el path no es una referencia raíz
+    if (!path || path === '') {
+      console.error('Invalid path detected:', path);
+      throw new Error('Invalid path for image upload');
+    }
+
+    console.log('Uploading image with path:', path);
+
+    const storageRef = ref(getStorage(), path);
+    
+    return uploadString(storageRef, data_url, 'data_url') // Retornaremos un upload de tipo string y este debe de traer una referencia , esa referencia vamos añadirle un getstorage para que se almacene en nuestro storage de firebase que me permite guardar imagenes o diferente multimedia, ademas de traer nuestra ruta o raiz traeremos nuestra data-url o dato que queremos almacenar como data_url
+    .then(() => getDownloadURL(storageRef));
+    // .then(() =>{ // Necesitaremos suscribirnos al servicio con .then y nos va a retornar ahora si nuestro getdownload con nuestra referencia en el storage
+    //   return getDownloadURL(storageRef); // guardamos el dato dentro de nuestro getstorage con esa ruta
+    // });
 
    }
 
@@ -153,6 +167,11 @@ export class FirebaseService {
     return deleteObject (ref(getStorage(), path)); // Vamos a manejar un servicio para la imagen como va a ser un objeto , esta va a necesitar una referencia la cual será nuestro storage donde se va a almacenar nuestra imagen
 
    }
+
+   // --------------- Función para generar un ID único --------------- //
+  generateId() {
+    return this.firestore.createId();
+  }
 
    // Funciones específicas para nuestra aplicación
   saveNewInstitution(newInstitutionName: string) {

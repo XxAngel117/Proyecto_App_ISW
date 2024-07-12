@@ -29,10 +29,9 @@
 
         <div *ngIf="form.controls.name.errors?.['required']"> El nombre es requerido </div>
         
-
       </div>
 
-      <app-login-input
+      <!-- <app-login-input
 
         autocomplete="lastname_p"
         type="text"
@@ -41,7 +40,7 @@
       
       ></app-login-input>
 
-      <div class="validators" *ngIf="form.controls.lastname_p.errors && form.controls.lastname_p.touched"> <!-- Nuestro ngIf servira para enviar un mensaje en caso que detecte un error, este será atraves de nuestro ".errors" (por ejemplo cuando este vacio algun campo de nuestro forms) todo esto cuando sea tocado o clickeado -->
+      <div class="validators" *ngIf="form.controls.lastname_p.errors && form.controls.lastname_p.touched">  Nuestro ngIf servira para enviar un mensaje en caso que detecte un error, este será atraves de nuestro ".errors" (por ejemplo cuando este vacio algun campo de nuestro forms) todo esto cuando sea tocado o clickeado 
 
         <div *ngIf="form.controls.lastname_p.errors?.['required']"> El apellido paterno es requerido </div>
 
@@ -56,33 +55,31 @@
       
       ></app-login-input>
 
-      <div class="validators" *ngIf="form.controls.lastname_m.errors && form.controls.lastname_m.touched"> <!-- Nuestro ngIf servira para enviar un mensaje en caso que detecte un error, este será atraves de nuestro ".errors" (por ejemplo cuando este vacio algun campo de nuestro forms) todo esto cuando sea tocado o clickeado -->
+      <div class="validators" *ngIf="form.controls.lastname_m.errors && form.controls.lastname_m.touched">  Nuestro ngIf servira para enviar un mensaje en caso que detecte un error, este será atraves de nuestro ".errors" (por ejemplo cuando este vacio algun campo de nuestro forms) todo esto cuando sea tocado o clickeado 
 
         <div *ngIf="form.controls.lastname_m.errors?.['required']"> El apellido materno es requerido </div>
 
-      </div>
+      </div> -->
 
       <ion-item>
         <ion-label position="floating">Género</ion-label>
         <ion-select formControlName="genre" placeholder="Seleccione el género">
-          <ion-select-option value="Masculino">Masculino</ion-select-option>
-          <ion-select-option value="Femenino">Femenino</ion-select-option>
+          <ion-select-option value="MASCULINO">Masculino</ion-select-option>
+          <ion-select-option value="FEMENINO">Femenino</ion-select-option>
         </ion-select>
       </ion-item>
       
       <div class="validators" *ngIf="form.controls.genre.errors && form.controls.genre.touched">
         <div *ngIf="form.controls.genre.errors?.['required']">El género es requerido</div>
       </div>
-
-      <br>
-
-      <ion-item>
+      
+      <!-- <ion-item>
         <ion-label position="stacked">Institución</ion-label>
         <ion-select formControlName="institution" interface="action-sheet">
           <ion-select-option value="UPSRJ">Universidad Politécnica de Santa Rosa Jáuregui (UPSRJ) </ion-select-option>
           <ion-select-option value="other"> + Añadir institución</ion-select-option>
         </ion-select>
-      </ion-item>
+      </ion-item> -->
 
       <!-- <div *ngIf="form.value.institution === 'other'">
         <app-login-input
@@ -93,44 +90,34 @@
         ></app-login-input>
       </div> -->
       
-      <div class="validators" *ngIf="form.controls.institution.errors && form.controls.institution.touched">
+      <!-- <div class="validators" *ngIf="form.controls.institution.errors && form.controls.institution.touched">
         <div *ngIf="form.controls.institution.errors?.['required']"> Se necesita el nombre de la institución </div>
-      </div>
-      
-      <br>
+      </div> -->
 
-      <ion-item>
-        <ion-label position="floating">Cuatrimestre:</ion-label>
-        <ion-select formControlName="quarter" placeholder="Indique el nivel que esta cursando:">
-          <ion-select-option value="1°">Primer cuatrimestre</ion-select-option>
-          <ion-select-option value="2°">Segundo cuatrimestre</ion-select-option>
-          <ion-select-option value="3°">Tercer cuatrimestre</ion-select-option>
-          <ion-select-option value="4°">Cuarto cuatrimestre</ion-select-option>
-          <ion-select-option value="5°">Quinto cuatrimestre</ion-select-option>
-          <ion-select-option value="6°">Sexto cuatrimestre</ion-select-option>
-          <ion-select-option value="7°">Septimo cuatrimestre</ion-select-option>
-          <ion-select-option value="8°">Octavo cuatrimestre</ion-select-option>
-          <ion-select-option value="9°">Noveno cuatrimestre</ion-select-option>
-          <ion-select-option value="10°">Decimo cuatrimestre</ion-select-option>
+      <app-login-input
 
-        </ion-select>
-      </ion-item>
+      autocomplete="quarter"
+      type="number"
+      label="Cuatrimestre"
+      [control]="form.controls.quarter" 
     
-      <div class="validators" *ngIf="form.controls.quarter.errors && form.controls.quarter.touched"> <!-- Nuestro ngIf servira para enviar un mensaje en caso que detecte un error, este será atraves de nuestro ".errors" (por ejemplo cuando este vacio algun campo de nuestro forms) todo esto cuando sea tocado o clickeado -->
+    ></app-login-input> <!-- Ademas de declarar los parametros de nuestro form, vamos a traer nuestro "control" para  recopilar nuestra información y nuestro ".controls" sirven para que podamos manipular los datos de lo que estamos enviando en nuestra etiqueta -->
 
-        <div *ngIf="form.controls.quarter.errors?.['required']"> El cuatrimestre es requerido </div>
+    <div class="validators" *ngIf="form.controls.quarter.errors && form.controls.quarter.touched"> <!-- Nuestro ngIf servira para enviar un mensaje en caso que detecte un error, este será atraves de nuestro ".errors" (por ejemplo cuando este vacio algun campo de nuestro forms) todo esto cuando sea tocado o clickeado -->
+
+      <div *ngIf="form.controls.quarter.errors?.['required']"> El cuatrimestre es requerido </div>
       
-      </div>
+    </div>
 
       <ion-item>
         <ion-label position="floating">Carrera:</ion-label>
         <ion-select formControlName="degree" placeholder="Seleccione la carrera:">
-          <ion-select-option value="LTF"> Licenciatura en Terapia física </ion-select-option>
-          <ion-select-option value="IAEV"> Ingeniería en Animación y efectos visuales</ion-select-option>
-          <ion-select-option value="IRC"> Ingeniería en Robótica computacional </ion-select-option>
-          <ion-select-option value="ISW"> Ingeniería en Software </ion-select-option>
-          <ion-select-option value="IMI">Ingeniería en Metrología industrial</ion-select-option>
-          <ion-select-option value="ISA">Ingeniería en Sistemas automotrices</ion-select-option>
+          <ion-select-option value="LIC. EN TERAPIA FISICA"> LIC. EN TERAPIA FISICA </ion-select-option>
+          <ion-select-option value="ING. EN ANIMACION Y EFECTOS VISUALES"> ING. EN ANIMACION Y EFECTOS VISUALES</ion-select-option>
+          <ion-select-option value="ING. EN ROBOTICA COMPUTACIONAL"> ING. EN ROBOTICA COMPUTACIONAL </ion-select-option>
+          <ion-select-option value="ING. EN SOFTWARE"> ING. EN SOFTWARE </ion-select-option>
+          <ion-select-option value="ING. EN METROLOGIA INDUSTRIAL">ING. EN METROLOGIA INDUSTRIAL</ion-select-option>
+          <ion-select-option value="ING. EN SISTEMAS AUTOMOTRICES">ING. EN SISTEMAS AUTOMOTRICES</ion-select-option>
         </ion-select>
       </ion-item>
     
@@ -201,7 +188,7 @@
       </div>
       
 
-      <app-login-input
+      <!-- <app-login-input
 
           autocomplete="nss"
           type="number"
@@ -209,28 +196,28 @@
           [control]="form.controls.nss" 
           
       
-      ></app-login-input> <!-- Ademas de declarar los parametros de nuestro form, vamos a traer nuestro "control" para  recopilar nuestra información y nuestro ".controls" sirven para que podamos manipular los datos de lo que estamos enviando en nuestra etiqueta -->
+      ></app-login-input> Ademas de declarar los parametros de nuestro form, vamos a traer nuestro "control" para  recopilar nuestra información y nuestro ".controls" sirven para que podamos manipular los datos de lo que estamos enviando en nuestra etiqueta 
 
-      <div class="validators" *ngIf="form.controls.nss.errors && form.controls.nss.touched"> <!-- Nuestro ngIf servira para enviar un mensaje en caso que detecte un error, este será atraves de nuestro ".errors" (por ejemplo cuando este vacio algun campo de nuestro forms) todo esto cuando sea tocado o clickeado -->
+      <div class="validators" *ngIf="form.controls.nss.errors && form.controls.nss.touched">  Nuestro ngIf servira para enviar un mensaje en caso que detecte un error, este será atraves de nuestro ".errors" (por ejemplo cuando este vacio algun campo de nuestro forms) todo esto cuando sea tocado o clickeado 
 
         <div *ngIf="form.controls.nss.errors?.['required']"> El número de seguro social es obligatorio </div>
         <div *ngIf="form.controls.nss.errors?.['pattern']">El número de seguro social solo debe contener números.</div>
 
-      </div>
+      </div> -->
 
-      <div *ngIf="form.controls.nss.value && form.controls.nss.value.length > 11">
+      <!-- <div *ngIf="form.controls.nss.value && form.controls.nss.value.length > 11">
 
         <div class="validators">El número de seguro social no debe tener más de 11 caracteres</div>
 
-      </div>
+      </div> -->
 
-      <div *ngIf="form.controls.nss.value && form.controls.nss.value.length < 11">
+      <!-- <div *ngIf="form.controls.nss.value && form.controls.nss.value.length < 11">
 
         <div class="validators">El número de seguro social debe de tener al menos 11 caracteres</div>
 
-      </div>
+      </div> -->
 
-      <ion-item>
+      <!-- <ion-item>
         <ion-label position="floating">Tipo de Sangre</ion-label>
         <ion-select formControlName="blood_type" placeholder="Seleccione el tipo de sangre">
           <ion-select-option value="A+">A+</ion-select-option>
@@ -242,13 +229,13 @@
           <ion-select-option value="O+">O+</ion-select-option>
           <ion-select-option value="O-">O-</ion-select-option>
         </ion-select>
-      </ion-item>
+      </ion-item> -->
 
-      <div class="validators" *ngIf="form.controls.blood_type.errors && form.controls.blood_type.touched">
+      <!-- <div class="validators" *ngIf="form.controls.blood_type.errors && form.controls.blood_type.touched">
         <div *ngIf="form.controls.blood_type.errors?.['required']">El tipo de sangre es requerido</div>
-      </div>
+      </div> -->
 
-      <app-login-input
+      <!-- <app-login-input
 
         autocomplete="curp"
         type="text"
@@ -256,17 +243,17 @@
         [control]="form.controls.curp"
         (input)="transformToUppercase($event)"
         
-      ></app-login-input> <!-- Ademas de declarar los parametros de nuestro form, vamos a traer nuestro "control" para  recopilar nuestra información y nuestro ".controls" sirven para que podamos manipular los datos de lo que estamos enviando en nuestra etiqueta -->
+      ></app-login-input>  Ademas de declarar los parametros de nuestro form, vamos a traer nuestro "control" para  recopilar nuestra información y nuestro ".controls" sirven para que podamos manipular los datos de lo que estamos enviando en nuestra etiqueta 
 
-      <div class="validators" *ngIf="form.controls.curp.errors && form.controls.curp.touched"> <!-- Nuestro ngIf servira para enviar un mensaje en caso que detecte un error, este será atraves de nuestro ".errors" (por ejemplo cuando este vacio algun campo de nuestro forms) todo esto cuando sea tocado o clickeado -->
+      <div class="validators" *ngIf="form.controls.curp.errors && form.controls.curp.touched">  Nuestro ngIf servira para enviar un mensaje en caso que detecte un error, este será atraves de nuestro ".errors" (por ejemplo cuando este vacio algun campo de nuestro forms) todo esto cuando sea tocado o clickeado 
 
         <div *ngIf="form.controls.curp.errors?.['required']"> El CURP es requerido </div>
         <div *ngIf="form.controls.curp.errors?.['pattern']">El CURP no puede contener expresiones regulares como puntos y comas entre otros</div>
-        <!-- <div *ngIf="form.controls.curp.errors?.['maxLength']"> El CURP no puede tener más de 18 caracteres </div>  -->
+        <div *ngIf="form.controls.curp.errors?.['maxLength']"> El CURP no puede tener más de 18 caracteres </div> 
 
-      </div>
+      </div> -->
 
-      <div *ngIf="form.controls.curp.value && form.controls.curp.value.length < 18">
+      <!-- <div *ngIf="form.controls.curp.value && form.controls.curp.value.length < 18">
 
         <div class="validators">El CURP debe de tener al menos 18 caracteres</div>
 
@@ -276,8 +263,20 @@
 
         <div class="validators">El CURP no debe de tener más de 18 caracteres</div>
 
-      </div>
+      </div> -->
 
+      
+      <ion-item>
+        <ion-label position="floating"> Status </ion-label>
+        <ion-select formControlName="status" placeholder="Seleccione si el alumno esta activo o no">
+          <ion-select-option value="SI">SI</ion-select-option>
+          <ion-select-option value="NO">NO</ion-select-option>
+        </ion-select>
+      </ion-item>
+
+      <div class="validators" *ngIf="form.controls.status.errors && form.controls.status.touched">
+        <div *ngIf="form.controls.status.errors?.['required']">El status es requerido</div>
+      </div>
       
 
       <app-login-input
@@ -296,21 +295,21 @@
 
       </div>
 
-      <app-login-input
+      <!-- <app-login-input
 
         autocomplete="Id_Key2"
         type="number"
         label="IdKey2"
         [control]="form.controls.id_key2" 
 
-      ></app-login-input> <!-- Ademas de declarar los parametros de nuestro form, vamos a traer nuestro "control" para  recopilar nuestra información y nuestro ".controls" sirven para que podamos manipular los datos de lo que estamos enviando en nuestra etiqueta -->
+      ></app-login-input> Ademas de declarar los parametros de nuestro form, vamos a traer nuestro "control" para  recopilar nuestra información y nuestro ".controls" sirven para que podamos manipular los datos de lo que estamos enviando en nuestra etiqueta 
 
-      <div class="validators" *ngIf="form.controls.id_key2.errors && form.controls.id_key2.touched"> <!-- Nuestro ngIf servira para enviar un mensaje en caso que detecte un error, este será atraves de nuestro ".errors" (por ejemplo cuando este vacio algun campo de nuestro forms) todo esto cuando sea tocado o clickeado -->
+      <div class="validators" *ngIf="form.controls.id_key2.errors && form.controls.id_key2.touched"> Nuestro ngIf servira para enviar un mensaje en caso que detecte un error, este será atraves de nuestro ".errors" (por ejemplo cuando este vacio algun campo de nuestro forms) todo esto cuando sea tocado o clickeado 
 
         <div *ngIf="form.controls.id_key2.errors?.['required']"> El identificador del Id key es requerido </div>
         <div *ngIf="form.controls.id_key2.errors?.['min']"> El número tiene que ser mayor a 0 </div> 
 
-      </div>
+      </div> -->
 
     
         <ion-button class="submit" type="submit"  mode="ios"  [disabled]="form.invalid" > <!-- EL tipo "type" servira para enviar la información de lo que estemos agregando y mis datos sean leidos , sino no podra leer el contenido esto de acuerdo a las propiedades del submit -->

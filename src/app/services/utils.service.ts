@@ -3,7 +3,7 @@ import { Router } from '@angular/router';
 import { AlertController, AlertOptions, LoadingController, ModalController, ModalOptions, ToastController, ToastOptions } from '@ionic/angular';
 import { Camera, CameraResultType, CameraSource } from '@capacitor/camera';
 
-@Injectable({
+@Injectable({ 
   providedIn: 'root'
 })
 export class UtilsService { 

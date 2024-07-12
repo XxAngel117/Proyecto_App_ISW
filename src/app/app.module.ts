@@ -1,4 +1,5 @@
 import { NgModule } from '@angular/core';
+import { HttpClientModule } from '@angular/common/http';
 import { BrowserModule } from '@angular/platform-browser';
 import { RouteReuseStrategy } from '@angular/router';
 import { initializeApp } from 'firebase/app';
@@ -31,9 +32,10 @@ initializeApp(firebaseConfig);
     AppRoutingModule,
     ReactiveFormsModule,
     AngularFireModule.initializeApp(firebaseConfig), // Le estamos pasando la llave que declaramos arriba en el objetivo cuando se inicie la aplicación
-    AngularFirestoreModule
+    AngularFirestoreModule,
+    HttpClientModule
   ],
-  providers: [{ provide: RouteReuseStrategy, useClass: IonicRouteStrategy }],
+  providers: [{ provide: RouteReuseStrategy, useClass: IonicRouteStrategy },],
   bootstrap: [AppComponent],
 })
 

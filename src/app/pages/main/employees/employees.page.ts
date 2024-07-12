@@ -1,4 +1,4 @@
-import { Component, OnInit, inject } from '@angular/core';
+import { Component, HostListener, OnInit, inject } from '@angular/core';
 import { map } from 'rxjs/operators';
 import { Employees } from 'src/app/models/employees.model';
 import { FirebaseService } from 'src/app/services/firebase.service';
@@ -14,6 +14,7 @@ export class EmployeesPage implements OnInit {
 
   constructor() { }
 
+  private timeout: any;
   searchTerm: string = '';
   utils = inject(UtilsService);
   firebaseService = inject(FirebaseService);
@@ -24,6 +25,41 @@ export class EmployeesPage implements OnInit {
 
   ionViewWillEnter() { 
     this.getEmployee();
+  }
+
+  // Detectar el desplazamiento de la ventana
+  @HostListener('window:scroll', [])
+  onWindowScroll() {
+
+    console.log('Scrolling detected'); // Depuración
+
+    // Encuentra todos los botones de ion-fab-button
+    const fabButtons = document.querySelectorAll('ion-fab');
+    if (fabButtons.length === 0) {
+      console.log('No fab buttons found'); // Depuración
+    } else {
+      console.log('Fab buttons found:', fabButtons.length); // Depuración
+
+    // Añade la clase 'hidden' a todos los botones
+    fabButtons.forEach(button => {
+      console.log('Adding hidden class to button', button); // Depuración
+      button.classList.add('hidden');
+    });
+
+    // Si hay un timeout existente, elimínalo
+    if (this.timeout) {
+      clearTimeout(this.timeout);
+    }
+
+    this.timeout = setTimeout(() => {
+      fabButtons.forEach(button => {
+        console.log('Removing hidden class from button', button); // Depuración
+        button.classList.remove('hidden');
+      });
+    }, 200); // Tiempo en milisegundos después del cual la opacidad se restaurará
+
+  }
+
   }
 
   getEmployeeSearch() {

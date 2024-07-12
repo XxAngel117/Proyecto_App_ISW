@@ -6,30 +6,30 @@
     <ion-refresher-content></ion-refresher-content>
   </ion-refresher>
 
-  <ion-searchbar animated placeholder="Buscar estudiantes..." mode="ios" (ionChange)="onSearch($event)" debounce=1000></ion-searchbar>
+  <ion-searchbar animated placeholder="Buscar estudiantes..." mode="ios" (ionInput)="onSearch($event)" debounce=1000></ion-searchbar>
 
   <ion-list *ngIf="!loading">
-    <ion-item-sliding class="product-item" *ngFor="let student of students">
+    <ion-item-sliding class="product-item" *ngFor="let student of filteredStudents">
       <ion-item>
         <ion-avatar slot="start">
           <img [src]="student.img" alt="">
         </ion-avatar>
         <ion-label>
-          <div class="name">{{ student.name }} {{ student.lastname_p }} {{ student.lastname_m }}</div>
+          <div class="name">{{ student.name }}</div>
           <div class="data">
-            <strong>Género:</strong> {{ student.genre }}<br>
-            <strong>Carrera:</strong> {{ student.degree }}<br>
             <strong>Matrícula:</strong> {{ student.enrollment }}<br>
-            <strong>Institución:</strong> {{ student.institution }}<br>
-            <strong>Cuatrímestre:</strong> {{ student.quarter }}<br>
-            <strong>Grupo:</strong> {{ student.group }}<br>
             <strong>Inclusión:</strong> {{ student.inclusion }}<br>
             <strong>Generación:</strong> {{ student.generation }}<br>
-            <strong>CURP:</strong> {{ student.curp }}<br>
+            <strong>Grupo:</strong> {{ student.group }}<br>
+            <strong>Género:</strong> {{ student.genre }}<br>
+            <strong>Cuatrimestre:</strong> {{ student.quarter }}<br>
+            <strong>Status:</strong> {{ student.status }}<br>
+            <strong>Carrera:</strong> {{ student.degree }}<br>
+            <!-- <strong>CURP:</strong> {{ student.curp }}<br>
             <strong>Numero de seguro social:</strong> {{ student.nss }}<br>
-            <strong>Tipo de sangre:</strong> {{ student.blood_type }}<br>
+            <strong>Tipo de sangre:</strong> {{ student.blood_type }}<br> -->
             <strong>ID_Key1:</strong> {{ student.id_key }}<br>
-            <strong>ID_Key2:</strong> {{ student.id_key2 }}<br>
+            <!-- <strong>ID_Key2:</strong> {{ student.id_key2 }}<br> -->
           </div>
         </ion-label>
       </ion-item>
@@ -60,14 +60,27 @@
     </ion-item-sliding>
   </ion-list>
 
-  <div class="empty" *ngIf="!loading && !students.length">
+  <div class="empty" *ngIf="!loading && !filteredStudents.length">
     <ion-icon name="person-outline"></ion-icon>
     <h3>No hay estudiantes disponibles</h3>
   </div>
 
-  <ion-fab vertical="bottom" horizontal="end" slot="fixed">
+  <ion-fab vertical="bottom" horizontal="center" slot="fixed">
     <ion-fab-button (click)="addUpdateStudent()">
       <ion-icon name="add"></ion-icon>
+    </ion-fab-button>
+  </ion-fab>
+
+  <ion-fab vertical="bottom" horizontal="start" slot="fixed">
+    <ion-fab-button (click)="exportDataToExcel()" class="btn-export">
+      <ion-icon name="cloud-upload"></ion-icon>
+    </ion-fab-button>
+  </ion-fab>
+
+  <ion-fab vertical="bottom" horizontal="end" slot="fixed">
+    <ion-fab-button class="btn-import">
+      <ion-icon name="download-outline"></ion-icon>
+      <input type="file" (change)="onFileSelected($event)" accept=".xlsx, .xls" style="opacity: 0; position: absolute; width: 100%; height: 100%; top: 0; left: 0;">
     </ion-fab-button>
   </ion-fab>
 

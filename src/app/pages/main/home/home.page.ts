@@ -70,7 +70,7 @@ export class HomePage implements OnInit {
           this.employees = resp.filter(employee =>
           `${employee.name} ${employee.lastname_p} ${employee.lastname_m}`.toLowerCase().includes(this.searchTerm.toLowerCase()) ||
             employee.id_key.toLowerCase().includes(this.searchTerm.toLowerCase()) ||
-            employee.id_key2.toLowerCase().includes(this.searchTerm.toLowerCase()) ||
+            // employee.id_key2.toLowerCase().includes(this.searchTerm.toLowerCase()) ||
             employee.curp.toLowerCase().includes(this.searchTerm.toLowerCase()) ||
             employee.no_employee.toLowerCase().includes(this.searchTerm.toLowerCase()) 
           );
@@ -94,11 +94,11 @@ export class HomePage implements OnInit {
       .subscribe({
         next: (resp: any) => {
           this.students = resp.filter(student =>
-            `${student.name} ${student.lastname_p} ${student.lastname_m}`.toLowerCase().includes(this.searchTerm.toLowerCase()) ||
+            `${student.name}`.toLowerCase().includes(this.searchTerm.toLowerCase()) ||
             student.id_key.toLowerCase().includes(this.searchTerm.toLowerCase()) ||
-            student.id_key2.toLowerCase().includes(this.searchTerm.toLowerCase()) ||
-            student.enrollment.toLowerCase().includes(this.searchTerm.toLowerCase()) ||
-            student.curp.toLowerCase().includes(this.searchTerm.toLowerCase())
+            // student.id_key2.toLowerCase().includes(this.searchTerm.toLowerCase()) ||
+            student.enrollment.toLowerCase().includes(this.searchTerm.toLowerCase()) 
+            // student.curp.toLowerCase().includes(this.searchTerm.toLowerCase())
           );
   
           this.loading = false;

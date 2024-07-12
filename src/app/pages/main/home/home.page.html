@@ -7,7 +7,6 @@
   </ion-refresher>
 
  <ion-searchbar animated placeholder="Buscar estudiantes o empleados..." mode="ios"  (ionChange)="onSearch($event)" debounce=1000 ></ion-searchbar> 
-
   <!-- Lista de empleados --> 
 
   <ion-list *ngIf="!loading && employees.length > 0">  <!-- Condiciomamos a nuestro lista , si es que no esta cargando nuestro loading , entonces que nos aparezca todos nuestros datos -->
@@ -58,21 +57,21 @@
           <img [src]="student.img" alt="Estudiante">
         </ion-avatar>
         <ion-label>
-          <div class="name">{{ student.name }} {{ student.lastname_p }} {{ student.lastname_m }}</div>
+          <div class="name">{{ student.name }}</div>
           <div class="data">
-            <strong>Género:</strong> {{ student.genre }}<br>
-            <strong>Carrera:</strong> {{ student.degree }}<br>
             <strong>Matrícula:</strong> {{ student.enrollment }}<br>
-            <strong>Institución:</strong> {{ student.institution }}<br>
-            <strong>Cuatrímestre:</strong> {{ student.quarter }}<br>
-            <strong>Grupo:</strong> {{ student.group }}<br>
             <strong>Inclusión:</strong> {{ student.inclusion }}<br>
             <strong>Generación:</strong> {{ student.generation }}<br>
-            <strong>CURP:</strong> {{ student.curp }}<br>
+            <strong>Grupo:</strong> {{ student.group }}<br>
+            <strong>Género:</strong> {{ student.genre }}<br>
+            <strong>Cuatrímestre:</strong> {{ student.quarter }}<br>
+            <strong>Status:</strong> {{ student.status }}<br>
+            <strong>Carrera:</strong> {{ student.degree }}<br>
+            <!-- <strong>CURP:</strong> {{ student.curp }}<br>
             <strong>Numero de seguro social:</strong> {{ student.nss }}<br>
-            <strong>Tipo de sangre:</strong> {{ student.blood_type }}<br>
+            <strong>Tipo de sangre:</strong> {{ student.blood_type }}<br> -->
             <strong>ID_Key1:</strong> {{ student.id_key }}<br>
-            <strong>ID_Key2:</strong> {{ student.id_key2 }}<br>
+            <!-- <strong>ID_Key2:</strong> {{ student.id_key2 }}<br> -->
           </div>  
         </ion-label>
       </ion-item>
@@ -123,12 +122,12 @@
 
   </div>
 
- <!-- Boton de crear nuevo empleado o estudiante
+ <!-- Boton de subir archivo csv
   <ion-fab vertical="bottom" horizontal="end" slot="fixed">
     <ion-fab-button (click)="addUpdateEmployee()">
       <ion-icon name="add"></ion-icon>
     </ion-fab-button>
-  </ion-fab> -->
+  </ion-fab>  -->
 
 
 </ion-content>

@@ -25,6 +25,31 @@
 @import "@ionic/angular/css/text-transformation.css";
 @import "@ionic/angular/css/flex-utils.css";
 
+// Botón de exportar
+.btn-export {
+    --background: #28a745; 
+    color: white;
+}
+  
+  // Botón de importar
+.btn-import {
+    --background: #ffd000; 
+    color: white;
+}
+  
+  // Ajustes para el icono dentro del botón
+ion-fab{
+    display: flex;
+    justify-content: center;
+    align-items: center;
+    transition: opacity 0.3s ease-in-out; /* Añade una transición suave */
+}
+
+  // Estilo para el estado de desplazamiento
+ion-fab.hidden {
+    opacity: 0.5; /* Reduce la opacidad durante el desplazamiento */
+}
+
 ion-button {
     text-transform: none;
 }
